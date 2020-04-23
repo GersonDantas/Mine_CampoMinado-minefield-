@@ -2,7 +2,7 @@ import {Dimensions} from 'react-native';
 
 const params = {
   blockSize: 30,
-  borderSize: 15,
+  borderSize: 5,
   fontSize: 15,
   headerRatio: 0.15, //proporção do painel superior
   difficultLevel: 0.1, //difilculdade do jogo(quantos -em porcentagem- campos serão preenchidos com minas)

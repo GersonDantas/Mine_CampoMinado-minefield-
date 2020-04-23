@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import params from './src/params';
+import Field from './src/components/Field'
 
 export default class App extends Component {
   render() {
@@ -11,6 +12,7 @@ export default class App extends Component {
           <Text style={styles.instructions}>
             tamanho da grade:{params.getRowAmount()}x{params.getColumnsAmaunt()}
           </Text>
+          <Field />
         </View>
       </>
     );
