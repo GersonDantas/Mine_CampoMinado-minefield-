@@ -1,11 +1,7 @@
 const creatBoard = (rows, columns) => {
-  return Array(rows)
-    .fill(0)
-    .map((_, row) => {
+  return Array(rows).fill(0).map((_, row) => {
       //"_" aqui vai ignorar o elemento do array
-      return Array(columns)
-        .fill(0)
-        .map((_, column) => {
+      return Array(columns).fill(0).map((_, column) => {
           return {
             //aqui vai retornar uma matriz de objetos. Por exemplo: [[{...},{...}],[{...},{...}],[{},{}]]
             row, //indice da linha

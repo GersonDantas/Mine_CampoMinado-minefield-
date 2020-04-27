@@ -1,10 +1,31 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import params from './src/params';
-import Field from './src/components/Field';
-import Flag from './src/components/Flag';
+import MineField from './src/components/MineField';
+import createMineBoard from './src/functions';
 
 export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = this.createState();
+  }
+
+  minesAmaunt = () => {
+    //vai caucular o percentual o total de minas que está dentro do tabuleiro
+    const rows = params.getRowAmount();
+    const columns = params.getColumnsAmaunt();
+    return Math.ceil(rows * columns * params.difficultLevel);
+  };
+
+  createState = () => {
+    const columns = params.getColumnsAmaunt();
+    const rows = params.getRowAmount();
+    return {
+      // board: createMineBoard(rows, columns, this.minesAmaunt()),
+    };
+  };
+
   render() {
     return (
       <>
@@ -13,19 +34,9 @@ export default class App extends Component {
           <Text style={styles.instructions}>
             tamanho da grade:{params.getRowAmount()}x{params.getColumnsAmaunt()}
           </Text>
-          {/* <Field />
-          <Field opened />
-          <Field opened nearMines={1} />
-          <Field opened nearMines={2} />
-          <Field opened nearMines={4} />
-          <Field opened nearMines={6} />
-          <Field mined />
-          <Field mined opened />
-          <Field mined opened exploded />
-          <Field flagget />
-          <Field flagget opened /> */}
-          <Flag />
-          <Flag bigger />
+          <View style={styles.board}>
+            <MineField board={this.state.board} />
+          </View>
         </View>
       </>
     );
@@ -35,21 +46,10 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-end',
+  },
+  board: {
     alignItems: 'center',
-    backgroundColor: '#f5fcff',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    fontWeight: 'bold',
-    flexWrap: 'wrap',
+    backgroundColor: '#AAA',
   },
 });
