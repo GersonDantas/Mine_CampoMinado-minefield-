@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import params from './src/params';
 import Field from './src/components/Field';
+import Flag from './src/components/Flag';
 
 export default class App extends Component {
   render() {
@@ -12,7 +13,7 @@ export default class App extends Component {
           <Text style={styles.instructions}>
             tamanho da grade:{params.getRowAmount()}x{params.getColumnsAmaunt()}
           </Text>
-          <Field />
+          {/* <Field />
           <Field opened />
           <Field opened nearMines={1} />
           <Field opened nearMines={2} />
@@ -21,6 +22,10 @@ export default class App extends Component {
           <Field mined />
           <Field mined opened />
           <Field mined opened exploded />
+          <Field flagget />
+          <Field flagget opened /> */}
+          <Flag />
+          <Flag bigger />
         </View>
       </>
     );
@@ -30,7 +35,8 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#f5fcff',
   },
