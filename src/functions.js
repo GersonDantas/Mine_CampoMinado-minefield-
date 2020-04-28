@@ -1,7 +1,11 @@
 const creatBoard = (rows, columns) => {
-  return Array(rows).fill(0).map((_, row) => {
+  return Array(rows)
+    .fill(0)
+    .map((_, row) => {
       //"_" aqui vai ignorar o elemento do array
-      return Array(columns).fill(0).map((_, column) => {
+      return Array(columns)
+        .fill(0)
+        .map((_, column) => {
           return {
             //aqui vai retornar uma matriz de objetos. Por exemplo: [[{...},{...}],[{...},{...}],[{},{}]]
             row, //indice da linha
@@ -33,10 +37,35 @@ const spreadMines = (board, minesAmount) => {
   }
 };
 
-const creatMinesBoard = (rows, columns, minesAmount) => {
+const createMinedBoard = (rows, columns, minesAmount) => {
   const board = creatBoard(rows, columns); //o board vai manipular cada objeto selecionado, dizendo mined or no
   spreadMines(board, minesAmount);
   return board; // já vai retornar o tabuleiro feito, com os objetos minados ou nao
 };
 
-export {creatMinesBoard};
+const cloneBoard = board => {
+  return board.map(rows => {
+    return rows.map(field => {
+      return {...field};
+    });
+  });
+};
+
+const getNeighbors = (board, row, column) => {
+  const neighbors = [];
+  const rows = [row - 1, row, row + 1];
+  const columns = [column - 1, column, column + 1];
+  rows.forEach(r => {
+    columns.forEach(c => {
+      const different = r !== row || c !== column;
+      const validRow = r >= 0 && r < board.length;
+      const validColumn = c >= 0 && c < board[0].length;
+      if (different && validColumn && validRow) {
+        neighbors.push(board[r][c]);
+      }
+    });
+  });
+  return neighbors;
+};
+
+export {createMinedBoard};

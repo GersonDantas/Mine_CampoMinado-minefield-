@@ -2,27 +2,26 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import params from './src/params';
 import MineField from './src/components/MineField';
-import createMineBoard from './src/functions';
+import {createMinedBoard} from './src/functions';
 
 export default class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = this.createState();
   }
 
-  minesAmaunt = () => {
+  minesAmount = () => {
     //vai caucular o percentual o total de minas que está dentro do tabuleiro
+    const cols = params.getColumnsAmaunt();
     const rows = params.getRowAmount();
-    const columns = params.getColumnsAmaunt();
-    return Math.ceil(rows * columns * params.difficultLevel);
+    return Math.ceil(rows * cols * params.difficultLevel);
   };
 
   createState = () => {
-    const columns = params.getColumnsAmaunt();
-    const rows = params.getRowAmount();
+    const cols = params.getColumnsAmaunt() - 1;
+    const rows = params.getRowAmount() - 1;
     return {
-      // board: createMineBoard(rows, columns, this.minesAmaunt()),
+      board: createMinedBoard(rows, cols, this.minesAmount()),
     };
   };
 
@@ -51,5 +50,6 @@ const styles = StyleSheet.create({
   board: {
     alignItems: 'center',
     backgroundColor: '#AAA',
+    padding: 5,
   },
 });
