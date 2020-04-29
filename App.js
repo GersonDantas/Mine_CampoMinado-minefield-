@@ -1,8 +1,18 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, Alert} from 'react-native';
 import params from './src/params';
 import MineField from './src/components/MineField';
-import {createMinedBoard} from './src/functions';
+import Header from './src/components/Header';
+import {
+  createMinedBoard,
+  cloneBoard,
+  openField,
+  wonGame,
+  showMines,
+  hadExplosion,
+  invertFlag,
+  flagUsed,
+} from './src/functions';
 
 export default class App extends Component {
   constructor(props) {
@@ -25,16 +35,49 @@ export default class App extends Component {
     };
   };
 
+  onOpenField = (row, column) => {
+    const board = cloneBoard(this.state.board);
+    openField(board, row, column);
+    const lost = hadExplosion(board);
+    const wow = wonGame(board);
+
+    if (lost) {
+      showMines(board);
+      Alert.alert('você Perdeu', 'Duvido tentar de novo...');
+    }
+    if (wow) {
+      Alert.alert('Parabeeeeeens!!!', 'Você ganhou!!!');
+    }
+
+    this.setState({board, lost, wow});
+  };
+
+  onSelectField = (row, column) => {
+    const board = cloneBoard(this.state.board);
+    invertFlag(board, row, column);
+    const wow = wonGame(board);
+
+    if (wow) {
+      Alert.alert('Parabeeeeeens!!!', 'Você ganhou!!!');
+    }
+
+    this.setState({board, wow});
+  };
+
   render() {
     return (
       <>
         <View style={styles.container}>
-          <Text style={styles.welcome}>Iniciando o mains!!!</Text>
-          <Text style={styles.instructions}>
-            tamanho da grade:{params.getRowAmount()}x{params.getColumnsAmaunt()}
-          </Text>
+          <Header
+            flagsLeft={this.minesAmount() - flagUsed(this.state.board)}
+            onNewGame={() => this.setState(this.createState())}
+          />
           <View style={styles.board}>
-            <MineField board={this.state.board} />
+            <MineField
+              board={this.state.board}
+              onOpenField={this.onOpenField}
+              onSelect={this.onSelectField}
+            />
           </View>
         </View>
       </>
