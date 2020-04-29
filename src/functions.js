@@ -68,4 +68,36 @@ const getNeighbors = (board, row, column) => {
   return neighbors;
 };
 
-export {createMinedBoard};
+const safeNeighborhood = (board, row, column) => {
+  const safes = (result, neighbor) => result && !neighbor.mined;
+  return getNeighbors(board, row, column).reduce(safes, true);
+};
+
+const openField = (board, row, column) => {
+  const field = board[row][column];
+  if (!field.opened) {
+    field.opened = true;
+    if (field.mined) {
+      field.mined = true;
+    } else if (safeNeighborhood(board, row, column)) {
+      getNeighbors(board, row, column).forEach(n =>
+        openField(board, n.row, n.column),
+      );
+    } else {
+      const neighbors = getNeighbors(board, row, column);
+      field.nearMines = neighbors.filter(n => n.mined).length; //vai pegar, com o 'filter, apenas os vizinhos que estão minados
+    }
+  }
+};
+
+const fields = board => [].concat(...board); //vai pegar todos os elementos como um Array
+const hadExplosion = board =>
+  fields(board).filter(field => field.exploded).length > 0;
+const pedding = field =>
+  (field.mined && !field.opened) || (!field.mined && !field.opened);
+const wonGame = board => fields(board).filter(pedding).length === 0;
+const showMines = board =>
+  fields(board)
+    .filter(field => field.mined)
+    .forEach(field => (field.opened = true));
+export {createMinedBoard, getNeighbors, cloneBoard};
