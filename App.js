@@ -12,6 +12,7 @@ import {
   hadExplosion,
   invertFlag,
   flagUsed,
+  openAllField,
 } from './src/functions';
 
 export default class App extends Component {
@@ -44,6 +45,7 @@ export default class App extends Component {
     if (lost) {
       showMines(board);
       Alert.alert('você Perdeu', 'Duvido tentar de novo...');
+      openAllField(board);
     }
     if (wow) {
       Alert.alert('Parabeeeeeens!!!', 'Você ganhou!!!');

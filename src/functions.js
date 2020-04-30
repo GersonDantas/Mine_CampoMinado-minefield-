@@ -1,3 +1,5 @@
+import Field from './components/Field';
+
 const creatBoard = (rows, columns) => {
   return Array(rows)
     .fill(0)
@@ -100,12 +102,15 @@ const showMines = board =>
   fields(board)
     .filter(field => field.mined)
     .forEach(field => (field.opened = true));
-const invertFlag = (board, row, column)=> {
+const invertFlag = (board, row, column) => {
   const field = board[row][column];
   field.flagget = !field.flagget;
 };
 
 const flagUsed = board => fields(board).filter(field => field.flagget).length;
+const openAllField = board => {
+  fields(board).forEach(field => (field.opened = true));
+};
 
 export {
   createMinedBoard,
@@ -116,4 +121,5 @@ export {
   hadExplosion,
   invertFlag,
   flagUsed,
+  openAllField,
 };
